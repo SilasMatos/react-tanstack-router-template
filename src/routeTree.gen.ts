@@ -1,5 +1,5 @@
 /* eslint-disable */
-
+//route.tree.gen.ts
 // @ts-nocheck
 
 // noinspection JSUnusedGlobalSymbols
@@ -13,6 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as errors503Import } from './routes/(errors)/503'
+import { Route as errors500Import } from './routes/(errors)/500'
+import { Route as errors404Import } from './routes/(errors)/404'
+import { Route as errors403Import } from './routes/(errors)/403'
+import { Route as errors401Import } from './routes/(errors)/401'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 
 // Create/Update Routes
@@ -26,6 +31,36 @@ const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+
+const errors503Route = errors503Import.update({
+  id: '/(errors)/503',
+  path: '/503',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const errors500Route = errors500Import.update({
+  id: '/(errors)/500',
+  path: '/500',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const errors404Route = errors404Import.update({
+  id: '/(errors)/404',
+  path: '/404',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const errors403Route = errors403Import.update({
+  id: '/(errors)/403',
+  path: '/403',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const errors401Route = errors401Import.update({
+  id: '/(errors)/401',
+  path: '/401',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const authSignInRoute = authSignInImport.update({
@@ -50,6 +85,41 @@ declare module '@tanstack/react-router' {
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof authSignInImport
+      parentRoute: typeof rootRoute
+    }
+    '/(errors)/401': {
+      id: '/(errors)/401'
+      path: '/401'
+      fullPath: '/401'
+      preLoaderRoute: typeof errors401Import
+      parentRoute: typeof rootRoute
+    }
+    '/(errors)/403': {
+      id: '/(errors)/403'
+      path: '/403'
+      fullPath: '/403'
+      preLoaderRoute: typeof errors403Import
+      parentRoute: typeof rootRoute
+    }
+    '/(errors)/404': {
+      id: '/(errors)/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof errors404Import
+      parentRoute: typeof rootRoute
+    }
+    '/(errors)/500': {
+      id: '/(errors)/500'
+      path: '/500'
+      fullPath: '/500'
+      preLoaderRoute: typeof errors500Import
+      parentRoute: typeof rootRoute
+    }
+    '/(errors)/503': {
+      id: '/(errors)/503'
+      path: '/503'
+      fullPath: '/503'
+      preLoaderRoute: typeof errors503Import
       parentRoute: typeof rootRoute
     }
     '/_authenticated/': {
@@ -78,11 +148,21 @@ const AuthenticatedRouteRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
   '/sign-in': typeof authSignInRoute
+  '/401': typeof errors401Route
+  '/403': typeof errors403Route
+  '/404': typeof errors404Route
+  '/500': typeof errors500Route
+  '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/sign-in': typeof authSignInRoute
+  '/401': typeof errors401Route
+  '/403': typeof errors403Route
+  '/404': typeof errors404Route
+  '/500': typeof errors500Route
+  '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
 }
 
@@ -90,26 +170,50 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/(auth)/sign-in': typeof authSignInRoute
+  '/(errors)/401': typeof errors401Route
+  '/(errors)/403': typeof errors403Route
+  '/(errors)/404': typeof errors404Route
+  '/(errors)/500': typeof errors500Route
+  '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/sign-in' | '/'
+  fullPaths: '' | '/sign-in' | '/401' | '/403' | '/404' | '/500' | '/503' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/'
-  id: '__root__' | '/_authenticated' | '/(auth)/sign-in' | '/_authenticated/'
+  to: '/sign-in' | '/401' | '/403' | '/404' | '/500' | '/503' | '/'
+  id:
+  | '__root__'
+  | '/_authenticated'
+  | '/(auth)/sign-in'
+  | '/(errors)/401'
+  | '/(errors)/403'
+  | '/(errors)/404'
+  | '/(errors)/500'
+  | '/(errors)/503'
+  | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   authSignInRoute: typeof authSignInRoute
+  errors401Route: typeof errors401Route
+  errors403Route: typeof errors403Route
+  errors404Route: typeof errors404Route
+  errors500Route: typeof errors500Route
+  errors503Route: typeof errors503Route
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   authSignInRoute: authSignInRoute,
+  errors401Route: errors401Route,
+  errors403Route: errors403Route,
+  errors404Route: errors404Route,
+  errors500Route: errors500Route,
+  errors503Route: errors503Route,
 }
 
 export const routeTree = rootRoute
@@ -123,7 +227,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/_authenticated",
-        "/(auth)/sign-in"
+        "/(auth)/sign-in",
+        "/(errors)/401",
+        "/(errors)/403",
+        "/(errors)/404",
+        "/(errors)/500",
+        "/(errors)/503"
       ]
     },
     "/_authenticated": {
@@ -134,6 +243,21 @@ export const routeTree = rootRoute
     },
     "/(auth)/sign-in": {
       "filePath": "(auth)/sign-in.tsx"
+    },
+    "/(errors)/401": {
+      "filePath": "(errors)/401.tsx"
+    },
+    "/(errors)/403": {
+      "filePath": "(errors)/403.tsx"
+    },
+    "/(errors)/404": {
+      "filePath": "(errors)/404.tsx"
+    },
+    "/(errors)/500": {
+      "filePath": "(errors)/500.tsx"
+    },
+    "/(errors)/503": {
+      "filePath": "(errors)/503.tsx"
     },
     "/_authenticated/": {
       "filePath": "_authenticated/index.tsx",
