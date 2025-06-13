@@ -3,22 +3,21 @@ import Header from '@/components/layout/header'
 import Sidebar from '@/components/layout/sidebar'
 
 export const Route = createFileRoute('/_authenticated')({
-  component: RouteComponent
+  component: Layout
 })
 
-function RouteComponent() {
+function Layout() {
   return (
-    <div className="h-screen flex dark:bg-dark-background bg-light-background">
-      <aside className="flex-shrink-0">
-        <Sidebar />
-      </aside>
+    <div className="h-screen flex flex-col overflow-hidden dark:bg-dark-background bg-light-background">
+      <Header />
 
-      <section className="flex flex-1 flex-col overflow-hidden">
-        <Header />
-        <main className="flex-1 p-4 overflow-auto scroll-edit">
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+
+        <main className="text-black flex-1 overflow-y-auto overflow-x-hidden   scroll-edit ">
           <Outlet />
         </main>
-      </section>
+      </div>
     </div>
   )
 }

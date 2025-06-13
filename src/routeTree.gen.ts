@@ -1,5 +1,5 @@
 /* eslint-disable */
-//route.tree.gen.ts
+
 // @ts-nocheck
 
 // noinspection JSUnusedGlobalSymbols
@@ -19,6 +19,12 @@ import { Route as errors404Import } from './routes/(errors)/404'
 import { Route as errors403Import } from './routes/(errors)/403'
 import { Route as errors401Import } from './routes/(errors)/401'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_authenticated/settings/notifications'
+import { Route as AuthenticatedSettingsDisplayImport } from './routes/_authenticated/settings/display'
+import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
+import { Route as AuthenticatedSettingsAccountImport } from './routes/_authenticated/settings/account'
 
 // Create/Update Routes
 
@@ -69,6 +75,50 @@ const authSignInRoute = authSignInImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
+  {
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any,
+)
+
+const AuthenticatedSettingsIndexRoute = AuthenticatedSettingsIndexImport.update(
+  {
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any,
+)
+
+const AuthenticatedSettingsNotificationsRoute =
+  AuthenticatedSettingsNotificationsImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+
+const AuthenticatedSettingsDisplayRoute =
+  AuthenticatedSettingsDisplayImport.update({
+    id: '/display',
+    path: '/display',
+    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+
+const AuthenticatedSettingsAppearanceRoute =
+  AuthenticatedSettingsAppearanceImport.update({
+    id: '/appearance',
+    path: '/appearance',
+    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+
+const AuthenticatedSettingsAccountRoute =
+  AuthenticatedSettingsAccountImport.update({
+    id: '/account',
+    path: '/account',
+    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -79,6 +129,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
     }
     '/(auth)/sign-in': {
       id: '/(auth)/sign-in'
@@ -129,16 +186,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/settings/account': {
+      id: '/_authenticated/settings/account'
+      path: '/account'
+      fullPath: '/settings/account'
+      preLoaderRoute: typeof AuthenticatedSettingsAccountImport
+      parentRoute: typeof AuthenticatedSettingsRouteImport
+    }
+    '/_authenticated/settings/appearance': {
+      id: '/_authenticated/settings/appearance'
+      path: '/appearance'
+      fullPath: '/settings/appearance'
+      preLoaderRoute: typeof AuthenticatedSettingsAppearanceImport
+      parentRoute: typeof AuthenticatedSettingsRouteImport
+    }
+    '/_authenticated/settings/display': {
+      id: '/_authenticated/settings/display'
+      path: '/display'
+      fullPath: '/settings/display'
+      preLoaderRoute: typeof AuthenticatedSettingsDisplayImport
+      parentRoute: typeof AuthenticatedSettingsRouteImport
+    }
+    '/_authenticated/settings/notifications': {
+      id: '/_authenticated/settings/notifications'
+      path: '/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof AuthenticatedSettingsNotificationsImport
+      parentRoute: typeof AuthenticatedSettingsRouteImport
+    }
+    '/_authenticated/settings/': {
+      id: '/_authenticated/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof AuthenticatedSettingsIndexImport
+      parentRoute: typeof AuthenticatedSettingsRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedSettingsRouteRouteChildren {
+  AuthenticatedSettingsAccountRoute: typeof AuthenticatedSettingsAccountRoute
+  AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
+  AuthenticatedSettingsDisplayRoute: typeof AuthenticatedSettingsDisplayRoute
+  AuthenticatedSettingsNotificationsRoute: typeof AuthenticatedSettingsNotificationsRoute
+  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
+}
+
+const AuthenticatedSettingsRouteRouteChildren: AuthenticatedSettingsRouteRouteChildren =
+  {
+    AuthenticatedSettingsAccountRoute: AuthenticatedSettingsAccountRoute,
+    AuthenticatedSettingsAppearanceRoute: AuthenticatedSettingsAppearanceRoute,
+    AuthenticatedSettingsDisplayRoute: AuthenticatedSettingsDisplayRoute,
+    AuthenticatedSettingsNotificationsRoute:
+      AuthenticatedSettingsNotificationsRoute,
+    AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
+  }
+
+const AuthenticatedSettingsRouteRouteWithChildren =
+  AuthenticatedSettingsRouteRoute._addFileChildren(
+    AuthenticatedSettingsRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
@@ -147,6 +264,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
+  '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/sign-in': typeof authSignInRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
@@ -154,6 +272,11 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/settings/account': typeof AuthenticatedSettingsAccountRoute
+  '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/settings/display': typeof AuthenticatedSettingsDisplayRoute
+  '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/settings/': typeof AuthenticatedSettingsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -164,11 +287,17 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/settings/account': typeof AuthenticatedSettingsAccountRoute
+  '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/settings/display': typeof AuthenticatedSettingsDisplayRoute
+  '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/settings': typeof AuthenticatedSettingsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/(auth)/sign-in': typeof authSignInRoute
   '/(errors)/401': typeof errors401Route
   '/(errors)/403': typeof errors403Route
@@ -176,23 +305,60 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
+  '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
+  '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/sign-in' | '/401' | '/403' | '/404' | '/500' | '/503' | '/'
+  fullPaths:
+    | ''
+    | '/settings'
+    | '/sign-in'
+    | '/401'
+    | '/403'
+    | '/404'
+    | '/500'
+    | '/503'
+    | '/'
+    | '/settings/account'
+    | '/settings/appearance'
+    | '/settings/display'
+    | '/settings/notifications'
+    | '/settings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/401' | '/403' | '/404' | '/500' | '/503' | '/'
+  to:
+    | '/sign-in'
+    | '/401'
+    | '/403'
+    | '/404'
+    | '/500'
+    | '/503'
+    | '/'
+    | '/settings/account'
+    | '/settings/appearance'
+    | '/settings/display'
+    | '/settings/notifications'
+    | '/settings'
   id:
-  | '__root__'
-  | '/_authenticated'
-  | '/(auth)/sign-in'
-  | '/(errors)/401'
-  | '/(errors)/403'
-  | '/(errors)/404'
-  | '/(errors)/500'
-  | '/(errors)/503'
-  | '/_authenticated/'
+    | '__root__'
+    | '/_authenticated'
+    | '/_authenticated/settings'
+    | '/(auth)/sign-in'
+    | '/(errors)/401'
+    | '/(errors)/403'
+    | '/(errors)/404'
+    | '/(errors)/500'
+    | '/(errors)/503'
+    | '/_authenticated/'
+    | '/_authenticated/settings/account'
+    | '/_authenticated/settings/appearance'
+    | '/_authenticated/settings/display'
+    | '/_authenticated/settings/notifications'
+    | '/_authenticated/settings/'
   fileRoutesById: FileRoutesById
 }
 
@@ -238,7 +404,19 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated/route.tsx",
       "children": [
+        "/_authenticated/settings",
         "/_authenticated/"
+      ]
+    },
+    "/_authenticated/settings": {
+      "filePath": "_authenticated/settings/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/settings/account",
+        "/_authenticated/settings/appearance",
+        "/_authenticated/settings/display",
+        "/_authenticated/settings/notifications",
+        "/_authenticated/settings/"
       ]
     },
     "/(auth)/sign-in": {
@@ -262,6 +440,26 @@ export const routeTree = rootRoute
     "/_authenticated/": {
       "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
+    },
+    "/_authenticated/settings/account": {
+      "filePath": "_authenticated/settings/account.tsx",
+      "parent": "/_authenticated/settings"
+    },
+    "/_authenticated/settings/appearance": {
+      "filePath": "_authenticated/settings/appearance.tsx",
+      "parent": "/_authenticated/settings"
+    },
+    "/_authenticated/settings/display": {
+      "filePath": "_authenticated/settings/display.tsx",
+      "parent": "/_authenticated/settings"
+    },
+    "/_authenticated/settings/notifications": {
+      "filePath": "_authenticated/settings/notifications.tsx",
+      "parent": "/_authenticated/settings"
+    },
+    "/_authenticated/settings/": {
+      "filePath": "_authenticated/settings/index.tsx",
+      "parent": "/_authenticated/settings"
     }
   }
 }

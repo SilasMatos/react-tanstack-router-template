@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { useUserStore } from '@/store/use-store'
+import { ThemeProvider } from '@/contexts/theme-context'
+import '@/styles/themes.css'
 import {
   QueryCache,
   QueryClient,
@@ -10,7 +12,6 @@ import {
 } from '@tanstack/react-query'
 import { handleServerError } from '@/utils/handle-server-error'
 import { toast } from 'sonner'
-// Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
 import './styles.css'
@@ -90,7 +91,9 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>
   )
