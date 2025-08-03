@@ -1,5 +1,5 @@
 /* eslint-disable */
-//route.tree.gen.ts
+
 // @ts-nocheck
 
 // noinspection JSUnusedGlobalSymbols
@@ -184,15 +184,15 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to: '/sign-in' | '/401' | '/403' | '/404' | '/500' | '/503' | '/'
   id:
-  | '__root__'
-  | '/_authenticated'
-  | '/(auth)/sign-in'
-  | '/(errors)/401'
-  | '/(errors)/403'
-  | '/(errors)/404'
-  | '/(errors)/500'
-  | '/(errors)/503'
-  | '/_authenticated/'
+    | '__root__'
+    | '/_authenticated'
+    | '/(auth)/sign-in'
+    | '/(errors)/401'
+    | '/(errors)/403'
+    | '/(errors)/404'
+    | '/(errors)/500'
+    | '/(errors)/503'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 

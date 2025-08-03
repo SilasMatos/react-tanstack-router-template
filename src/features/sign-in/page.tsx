@@ -4,9 +4,10 @@ import type { LoginMutation } from '@/types/mutations-types'
 import { useRouter } from '@tanstack/react-router'
 import { Mail, Lock, LogIn, GanttChartSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
+import { useUserStore } from '@/store/use-store'
 export default function SignInPage() {
   const router = useRouter()
+  const setUser = useUserStore(s => s.setUser)
   const {
     register,
     handleSubmit,

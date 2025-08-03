@@ -1,13 +1,12 @@
 // src/store/use-store.ts
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import type { PersistStorage } from 'zustand/middleware'
-import Cookies from 'js-cookie'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
-interface User {
+export interface User {
+  id: string
   name: string
   email: string
-  isAuthenticated: boolean
+  // …qualquer outra info que o /me devolver
 }
 
 interface UserStore {
@@ -16,29 +15,17 @@ interface UserStore {
   logout: () => void
 }
 
-const cookieStorage: PersistStorage<UserStore> = {
-  getItem: (name) => {
-    const value = Cookies.get(name)
-    return value ? JSON.parse(value) : null
-  },
-  setItem: (name, value) => {
-    Cookies.set(name, JSON.stringify(value), { expires: 7 })
-  },
-  removeItem: (name) => {
-    Cookies.remove(name)
-  },
-}
-
 export const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user: { ...user, isAuthenticated: true } }),
+      setUser: (user) => set({ user }),
       logout: () => set({ user: null }),
     }),
     {
-      name: 'user-cookie',
-      storage: cookieStorage,
-    }
-  )
+      name: 'user',                                   // chave no localStorage
+      storage: createJSONStorage(() => localStorage), // persiste só no browser
+      partialize: (state) => ({ user: state.user }),  // salva apenas user
+    },
+  ),
 )
