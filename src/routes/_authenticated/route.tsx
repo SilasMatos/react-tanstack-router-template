@@ -4,11 +4,15 @@ import {
   redirect, // 👈 precisa importar
   Outlet
 } from '@tanstack/react-router'
+import { AppSidebar } from '@/components/app-sidebar'
+
+import { SiteHeader } from '@/components/site-header'
+import {
+  SidebarInset,
+  SidebarProvider,
+} from '@/components/ui/sidebar'
 
 import { useUserStore } from '@/store/use-store'
-import Header from '@/components/layout/header'
-import Sidebar from '@/components/layout/sidebar'
-
 export const Route = createFileRoute('/_authenticated')({
   async beforeLoad({ location }) {
     const { user, setUser } = useUserStore.getState()
@@ -31,17 +35,19 @@ export const Route = createFileRoute('/_authenticated')({
 
 function RouteComponent() {
   return (
-    <div className="h-screen flex dark:bg-dark-background bg-light-background">
-      <aside className="flex-shrink-0">
-        <Sidebar />
-      </aside>
-
-      <section className="flex flex-1 flex-col overflow-hidden">
-        <Header />
-        <main className="flex-1 p-4 overflow-auto scroll-edit">
-          <Outlet /> {/* rotas internas aparecem aqui */}
-        </main>
-      </section>
-    </div>
+     <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+       <  Outlet />
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
